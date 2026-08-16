@@ -404,8 +404,11 @@ export default function ResearchAgent() {
 
       const data = await response.json().catch(() => ({}));
 
+      if (data.error) {
+        throw new Error(data.error);
+      }
       if (!response.ok) {
-        throw new Error(data.error || `Request failed (${response.status})`);
+        throw new Error(`Request failed (${response.status})`);
       }
 
       const parsed = data.results;
