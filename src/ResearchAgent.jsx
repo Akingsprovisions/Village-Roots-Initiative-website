@@ -513,14 +513,7 @@ export default function ResearchAgent() {
   }
 
   return (
-    <div
-      style={{
-        background: "#F3EFE4",
-        minHeight: "100%",
-        padding: "40px 32px 64px",
-        fontFamily: "'Inter', sans-serif",
-      }}
-    >
+    <div style={{ fontFamily: "'Inter', sans-serif" }}>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap');
         .vr-input { background: #FBF9F2; border: 1px solid #D9D0B8; color: #241F16; font-family: 'Inter', sans-serif; }
@@ -528,40 +521,7 @@ export default function ResearchAgent() {
         .vr-btn:active { transform: translateY(1px); }
       `}</style>
 
-      <div style={{ maxWidth: 900, margin: "0 auto" }}>
-        <div style={{ display: "flex", alignItems: "baseline", gap: 12, marginBottom: 4 }}>
-          <span
-            style={{
-              fontFamily: "'JetBrains Mono', monospace",
-              fontSize: 12,
-              color: "#B8862E",
-              letterSpacing: "1.5px",
-            }}
-          >
-            PLANT A SEED
-          </span>
-          <span style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 12, color: "#8A8267" }}>
-            Community Research Agent
-          </span>
-        </div>
-        <h1
-          style={{
-            fontFamily: "'Fraunces', serif",
-            fontSize: 42,
-            fontWeight: 700,
-            color: "#1E3B2F",
-            margin: "4px 0 6px",
-            letterSpacing: "-0.5px",
-          }}
-        >
-          Village Roots
-        </h1>
-        <p style={{ fontSize: 15, color: "#5C5842", margin: "0 0 32px", maxWidth: 560 }}>
-          For teens exploring on their own, or parents searching for their kids. Enter a region
-          and interest — we check our vetted directory first, and only search the live web if
-          nothing local turns up. Every result is stamped with its verification status.
-        </p>
-
+      <div>
         <RegionsServed />
 
         <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
