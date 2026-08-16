@@ -51,7 +51,10 @@ export default async (req) => {
   const region = String(body.region || "").trim();
   const category = CATEGORIES.includes(body.category) ? body.category : CATEGORIES[0];
   const age = Math.max(0, Math.min(18, Number(body.age) || 0));
-  const searchSize = 8;
+  // Kept small: the platform hard-cuts execution well before the documented
+  // streaming limit, so this needs to reliably finish in ~20s. Fewer search
+  // rounds and a smaller result count keep the agent loop short.
+  const searchSize = 4;
 
   if (!region) {
     return jsonResponse(400, { error: "Region is required" });
@@ -127,7 +130,7 @@ Respond with ONLY a raw JSON array (no markdown fences, no prose before or after
                 content: `Find up to ${searchSize} verified ${category} programs in ${region} suitable for a ${age} year old. Output the JSON array only.`,
               },
             ],
-            tools: [{ type: "web_search_20260318", name: "web_search", max_uses: 8 }],
+            tools: [{ type: "web_search_20260318", name: "web_search", max_uses: 3 }],
           }),
         });
 
