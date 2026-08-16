@@ -482,7 +482,7 @@ export default function ResearchAgent() {
     }, 3200);
 
     try {
-      const response = await fetch("/.netlify/functions/search-programs", {
+      const response = await fetch("/api/search-programs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ region, category, age }),

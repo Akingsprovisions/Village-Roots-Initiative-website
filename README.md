@@ -31,9 +31,15 @@ village-roots-site/
 │   ├── ResearchAgent.jsx    # the tool itself (directory-first + live fallback)
 │   └── directory.json       # the vetted directory data (221 entries, 20 regions)
 └── netlify/
-    └── functions/
+    └── edge-functions/
         └── search-programs.js   # server-side proxy to the Anthropic API (live fallback only)
 ```
+
+`search-programs.js` runs as a Netlify Edge Function (Deno runtime) rather than a
+regular Netlify Function — regular Functions are proxied through an
+intermediary with a hard ~30s wall-clock limit that this endpoint's
+web-search agent loop routinely exceeded. Edge Functions avoid that proxy
+and give ~40s of headroom instead.
 
 ## Local development
 
@@ -60,8 +66,9 @@ below) so the live-search fallback works locally too.
 1. **Push this project to a Git repo** (GitHub, GitLab, or Bitbucket).
 2. In Netlify, choose **Add new site → Import an existing project** and
    connect that repo. Netlify will read `netlify.toml` automatically, so
-   the build command (`npm run build`), publish directory (`dist`), and
-   functions directory (`netlify/functions`) are already configured.
+   the build command (`npm run build`) and publish directory (`dist`) are
+   already configured. `netlify/edge-functions/` is auto-detected — no
+   extra config needed.
 3. **Set the API key** — this is the one manual step required before live
    search will work:
    - Go to **Site settings → Environment variables**

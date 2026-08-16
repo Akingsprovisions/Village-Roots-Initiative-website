@@ -1,14 +1,11 @@
 [build]
   command = "npm run build"
   publish = "dist"
-  functions = "netlify/functions"
-
-[functions]
-  node_bundler = "esbuild"
 
 # SPA fallback so any deep link still loads the app.
-# Netlify always resolves /.netlify/functions/* to functions first, regardless
-# of this catch-all, so it does not interfere with the search-programs function.
+# Edge Functions (netlify/edge-functions/) declare their own path via
+# `export const config`, and Netlify always resolves those before this
+# catch-all, so it does not interfere with /api/search-programs.
 [[redirects]]
   from = "/*"
   to = "/index.html"
