@@ -307,6 +307,92 @@ function EntryCard({ entry, index, parentEmail, age, category, searchingFor }) {
   );
 }
 
+const CONTACT_EMAIL = "chefadam@akingsprovisions.com";
+
+function RegionsServed() {
+  const [open, setOpen] = useState(false);
+  const regions = Object.keys(directoryData.regionAliases || {}).sort();
+
+  const requestSubject = "Request to add my area to Village Roots";
+  const requestBody = [
+    "Hi Village Roots team,",
+    "",
+    "My area isn't in your vetted directory yet — could you add coverage for it?",
+    "",
+    "City / region: ",
+    "",
+    "Thank you!",
+  ].join("\n");
+  const mailtoHref = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(
+    requestSubject
+  )}&body=${encodeURIComponent(requestBody)}`;
+
+  return (
+    <div style={{ marginBottom: 24 }}>
+      <button
+        onClick={() => setOpen((o) => !o)}
+        style={{
+          background: "none",
+          border: "none",
+          padding: 0,
+          cursor: "pointer",
+          fontFamily: "'JetBrains Mono', monospace",
+          fontSize: 12.5,
+          color: "#1E3B2F",
+          textDecoration: "underline",
+          textUnderlineOffset: 3,
+        }}
+      >
+        {open ? "Hide" : "See"} the {regions.length} regions we serve {open ? "▴" : "▾"}
+      </button>
+
+      {open && (
+        <div
+          style={{
+            marginTop: 14,
+            background: "#FBF9F2",
+            border: "1px solid #D9D0B8",
+            borderRadius: 4,
+            padding: 20,
+          }}
+        >
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
+              gap: "8px 20px",
+              fontFamily: "'JetBrains Mono', monospace",
+              fontSize: 12.5,
+              color: "#3A362B",
+            }}
+          >
+            {regions.map((r) => (
+              <div key={r}>{r}</div>
+            ))}
+          </div>
+          <div
+            style={{
+              marginTop: 18,
+              paddingTop: 16,
+              borderTop: "1px solid #D9D0B8",
+              fontSize: 13,
+              color: "#5C5842",
+            }}
+          >
+            Don't see your area?{" "}
+            <a
+              href={mailtoHref}
+              style={{ color: "#B8862E", textDecoration: "underline", textUnderlineOffset: 2 }}
+            >
+              Request that we add it →
+            </a>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 const LOADING_STEPS = [
   "Contacting local listings and provider sites...",
   "Cross-checking schedules and addresses...",
@@ -475,6 +561,8 @@ export default function ResearchAgent() {
           and interest — we check our vetted directory first, and only search the live web if
           nothing local turns up. Every result is stamped with its verification status.
         </p>
+
+        <RegionsServed />
 
         <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
           {[
