@@ -84,7 +84,27 @@ Respond with ONLY a raw JSON array (no markdown fences, no prose before or after
   const stream = new ReadableStream({
     async start(controller) {
       const encoder = new TextEncoder();
+      let finished = false;
+
+      // Heartbeat: some proxies in the request path time out on idle
+      // silence rather than total duration. Anthropic's web-search agent
+      // loop can go 20-40s without producing output, so send a harmless
+      // whitespace byte periodically to keep the connection considered
+      // active. Leading whitespace before a JSON value is spec-legal and
+      // ignored by JSON.parse.
+      const heartbeat = setInterval(() => {
+        if (!finished) {
+          try {
+            controller.enqueue(encoder.encode(" "));
+          } catch (e) {
+            clearInterval(heartbeat);
+          }
+        }
+      }, 5000);
+
       const emit = (obj) => {
+        finished = true;
+        clearInterval(heartbeat);
         controller.enqueue(encoder.encode(JSON.stringify(obj)));
         controller.close();
       };
